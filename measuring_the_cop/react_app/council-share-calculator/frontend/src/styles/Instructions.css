@@ -1,0 +1,65 @@
+.instructions-modal .modal-dialog {
+    max-width: 900px !important; /* Override Bootstrap default with !important */
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.outerdiv{
+    padding: 4cqh;
+}
+.instructiondiv{
+border-bottom: 1px solid black;
+margin-bottom: 15px;
+}
+
+.inpputdiv input{
+    width: 500px;
+}
+
+.submitbtn{
+    display: flex;
+    justify-content: center;
+}
+
+.submitbtn button{
+    background-color: #3457D5;
+    border:none;
+    width: 300px;
+
+}
+
+.divouter{
+    margin-bottom: 50px;
+}
+
+.emailerror{
+    color: red;
+}
+
+.whole-intruction-div{
+    margin: 25px 100px;
+    padding: 30px;
+    display: flex;
+    /* background-color: #3457D5; */
+    flex-direction: column;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.continuebutton{
+    background-color: #fe0420 !important;
+    color: white;
+    border-radius: 25px;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.continuebutton:hover{
+    color: #fe0420 !important;
+    background-color: white !important; 
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: 700;
+    border: 1px solid #fe0420;
+}

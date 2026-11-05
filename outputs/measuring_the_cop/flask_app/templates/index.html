@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Council Share Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .input-field {
+            width: 100px;
+            text-align: center;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            z-index: 9999;
+            animation: fadeInDown 0.5s, fadeOutUp 0.5s 2.5s forwards;
+        }
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        @keyframes fadeOutUp {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">Council Share Calculator</h2>
+
+        <!-- Assign Weights Section -->
+        <section id="assignWeights">
+            <h3 class="mb-3">Assign Weights</h3>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label" for="WD">1. Weight for Decision Making Authority (WD)</label>
+                        <input type="number" class="form-control input-field" id="WD" name="WD" value="35" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="WS">2. Weight for Scope of Influence (WS)</label>
+                        <input type="number" class="form-control input-field" id="WS" name="WS" value="25" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="WC">3. Weight for Community Engagement (WC)</label>
+                        <input type="number" class="form-control input-field" id="WC" name="WC" value="10" min="0" max="100" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label" for="WO">4. Weight for Operational Independence (WO)</label>
+                        <input type="number" class="form-control input-field" id="WO" name="WO" value="10" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="WV">5. Weight for Voting Power (WV)</label>
+                        <input type="number" class="form-control input-field" id="WV" name="WV" value="10" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="WVe">6. Weight for Veto Power (WVe)</label>
+                        <input type="number" class="form-control input-field" id="WVe" name="WVe" value="10" min="0" max="100" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Council Scores Section -->
+        <section id="councilScores">
+            <h3 class="mb-3">Council Scores</h3>
+
+            {% set councils = [
+                "Token House",
+                "Citizens' House",
+                "Grants Council",
+                "Security Council",
+                "Code of Conduct Council",
+                "Developer Advisory Board",
+                "Anticapture Commission"
+            ] %}
+
+            {% for council in councils %}
+                <div class="form-group">
+                    <h4>{{ council }}</h4>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label" for="{{ council }}_D">Decision Making Authority (D)</label>
+                            <input type="number" class="form-control input-field" id="{{ council }}_D" name="{{ council }}_D" value="4" min="0" max="5" step="0.1" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="{{ council }}_S">Scope of Influence (S)</label>
+                            <input type="number" class="form-control input-field" id="{{ council }}_S" name="{{ council }}_S" value="5" min="0" max="5" step="0.1" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="{{ council }}_C">Community Engagement (C)</label>
+                            <input type="number" class="form-control input-field" id="{{ council }}_C" name="{{ council }}_C" value="4" min="0" max="5" step="0.1" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="{{ council }}_O">Operational Independence (O)</label>
+                            <input type="number" class="form-control input-field" id="{{ council }}_O" name="{{ council }}_O" value="4" min="0" max="5" step="0.1" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="{{ council }}_V">Voting Power (V)</label>
+                            <input type="number" class="form-control input-field" id="{{ council }}_V" name="{{ council }}_V" value="5" min="0" max="5" step="0.1" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="{{ council }}_Ve">Veto Power (Ve)</label>
+                            <input type="number" class="form-control input-field" id="{{ council }}_Ve" name="{{ council }}_Ve" value="4" min="0" max="5" step="0.1" required>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+
+        <!-- Results Popup -->
+        <div id="resultPopup" class="popup">
+            <h4 class="mb-3">Results</h4>
+            <div id="resultContent"></div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button id="btnCalculate" class="btn btn-primary btn-calculate">Calculate Weighted Scores</button>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btnCalculate').click(function() {
+                var data = $('#assignWeights, #councilScores').serialize();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/calculate',
+                    data: data,
+                    success: function(response) {
+                        var resultsHtml = '<ul class="list-group">';
+                        $.each(response, function(council, percentage) {
+                            resultsHtml += '<li class="list-group-item">' + council + ': ' + percentage.toFixed(2) + '%</li>';
+                        });
+                        resultsHtml += '</ul>';
+                        $('#resultContent').html(resultsHtml);
+                        $('#resultPopup').addClass('animate__animated animate__fadeInDown').css('display', 'block');
+                        setTimeout(function() {
+                            $('#resultPopup').removeClass('animate__fadeInDown').addClass('animate__fadeOutUp');
+                        }, 3000); // Hide popup after 3 seconds
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('Error calculating scores. Please check your input.');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
